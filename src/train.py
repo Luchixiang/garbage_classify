@@ -4,6 +4,7 @@ import multiprocessing
 from glob import glob
 
 import numpy as np
+import tensorflow as tf
 from keras import backend
 from keras.models import Model
 from keras.optimizers import adam
@@ -11,6 +12,8 @@ from keras.layers import Flatten, Dense
 from keras.callbacks import TensorBoard, Callback
 from moxing.framework import file
 from data_gen import data_flow
+import tensorflow as tf
+import keras
 from models.resnet50 import ResNet50
 
 backend.set_image_data_format('channels_last')
@@ -25,8 +28,23 @@ def model_fn(FLAGS, objective, optimizer, metrics):
                           pooling=None,
                           input_shape=(FLAGS.input_size, FLAGS.input_size, 3),
                           classes=FLAGS.num_classes)
-    for layer in base_model.layers:
-        layer.trainable = False
+    # base_model = keras.applications.NASNetLarge(include_top=False, input_shape=(FLAGS.input_size, FLAGS.input_size, 3), weights=None)
+    # weights_path = keras.utils.get_file(
+    #     'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
+    #     'https://lajibulaji.obs.cn-north-1.myhuaweicloud.com:443/NASNet-large-no-top.h5?AccessKeyId=PG8ZG7CXDO0QSWGWZPNW&Expires=1567240255&Signature=RQuJOQ59P3iErxC9hPJQiRf4FEQ%3D',
+    #     cache_subdir='models',
+    #     md5_hash='a268eb855778b3df3c7506639542a6af',
+    #     cache_dir=os.path.join(os.path.dirname(__file__), '..'))
+    # base_model.load_weights(weights_path)
+    # base_model.trainable = True
+    # for layer in base_model.layers[:100]:
+    #     layer.trainable = False
+    # model = keras.Sequential([
+    #     base_model,
+    #     keras.layers.Flatten(),
+    #     keras.layers.Dense(FLAGS.num_classes, activation='softmax')
+    # ])
+    # model.compile(loss=objective, optimizer=optimizer, metrics=metrics)
     x = base_model.output
     x = Flatten()(x)
     predictions = Dense(FLAGS.num_classes, activation='softmax')(x)
@@ -68,8 +86,8 @@ def train_model(FLAGS):
     train_sequence, validation_sequence = data_flow(FLAGS.data_local, FLAGS.batch_size,
                                                     FLAGS.num_classes, FLAGS.input_size)
 
-    optimizer = adam(lr=FLAGS.learning_rate, clipnorm=0.001)
-    objective = 'binary_crossentropy'
+    optimizer = keras.optimizers.Adam(lr=FLAGS.learning_rate)
+    objective = 'categorical_crossentropy'
     metrics = ['accuracy']
     model = model_fn(FLAGS, objective, optimizer, metrics)
     if FLAGS.restore_model_path != '' and file.exists(FLAGS.restore_model_path):

@@ -13,6 +13,7 @@ from keras.applications import backend
 from keras.applications import layers
 from keras.applications import models
 from keras.applications import utils
+import keras
 
 _KERAS_BACKEND = backend
 _KERAS_LAYERS = layers
@@ -636,29 +637,41 @@ def ResNet50(include_top=True,
     else:
         inputs = img_input
     # Create model.
-    model = models.Model(inputs, x, name='resnet50')
+    model = keras.applications.NASNetLarge(include_top=False, input_shape=(331, 331, 3), weights=None)
+    weights_path = keras.utils.get_file(
+        'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
+        'https://lajibulaji.obs.cn-north-1.myhuaweicloud.com:443/NASNet-large-no-top.h5?AccessKeyId=PG8ZG7CXDO0QSWGWZPNW&Expires=1567240255&Signature=RQuJOQ59P3iErxC9hPJQiRf4FEQ%3D',
+        cache_subdir='models',
+        md5_hash='a268eb855778b3df3c7506639542a6af',
+        cache_dir=os.path.join(os.path.dirname(__file__), '..'))
+    model.load_weights(weights_path)
+    model.trainable = True
+    for layer in model.layers[:100]:
+         layer.trainable = False
+    # model = models.Model(inputs, x, name='resnet50')
 
     # Load weights.
-    if weights == 'imagenet':
-        if include_top:
-            weights_path = keras_utils.get_file(
-                'resnet50_weights_tf_dim_ordering_tf_kernels.h5',
-                WEIGHTS_PATH,
-                cache_subdir='models',
-                md5_hash='a7b3fe01876f51b976af0dea6bc144eb',
-                cache_dir=os.path.join(os.path.dirname(__file__), '..'))
-        else:
-            weights_path = keras_utils.get_file(
-                'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
-                WEIGHTS_PATH_NO_TOP,
-                cache_subdir='models',
-                md5_hash='a268eb855778b3df3c7506639542a6af',
-                cache_dir=os.path.join(os.path.dirname(__file__), '..'))
-        model.load_weights(weights_path)
-        if backend.backend() == 'theano':
-            keras_utils.convert_all_kernels_in_model(model)
-    elif weights is not None:
-        model.load_weights(weights)
+    # if weights == 'imagenet':
+    #     if include_top:
+    #         weights_path = keras_utils.get_file(
+    #             'resnet50_weights_tf_dim_ordering_tf_kernels.h5',
+    #             WEIGHTS_PATH,
+    #             cache_subdir='models',
+    #             md5_hash='a7b3fe01876f51b976af0dea6bc144eb',
+    #             cache_dir=os.path.join(os.path.dirname(__file__), '..'))
+    #     else:
+    #         weights_path = keras_utils.get_file(
+    #             'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
+    #             WEIGHTS_PATH_NO_TOP,
+    #             cache_subdir='models',
+    #             md5_hash='a268eb855778b3df3c7506639542a6af',
+    #             cache_dir=os.path.join(os.path.dirname(__file__), '..'))
+    #     model.load_weights(weights_path)
+    #     if backend.backend() == 'theano':
+    #         keras_utils.convert_all_kernels_in_model(model)
+    # elif weights is not None:
+    #     model.load_weights(weights)
+
 
     return model
 

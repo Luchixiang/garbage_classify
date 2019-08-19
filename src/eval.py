@@ -72,7 +72,7 @@ def test_single_h5(FLAGS, h5_weights_path):
         print('%s is not a h5 weights file path' % h5_weights_path)
         return
     optimizer = adam(lr=FLAGS.learning_rate, clipnorm=0.001)
-    objective = 'binary_crossentropy'
+    objective = 'categorical_crossentropy'
     metrics = ['accuracy']
     model = model_fn(FLAGS, objective, optimizer, metrics)
     load_weights(model, FLAGS.eval_weights_path)

@@ -6,6 +6,7 @@ import random
 import numpy as np
 from glob import glob
 from PIL import Image
+import cv2
 
 from keras.utils import np_utils, Sequence
 from sklearn.model_selection import train_test_split
@@ -18,12 +19,14 @@ class BaseSequence(Sequence):
     fit_generator会将BaseSequence再次封装为一个多进程的数据流生成器
     而且能保证在多进程下的一个epoch中不会重复取相同的样本
     """
-    def __init__(self, img_paths, labels, batch_size, img_size):
+
+    def __init__(self, img_paths, labels, batch_size, img_size, istraining):
         assert len(img_paths) == len(labels), "len(img_paths) must equal to len(lables)"
         assert img_size[0] == img_size[1], "img_size[0] must equal to img_size[1]"
         self.x_y = np.hstack((np.array(img_paths).reshape(len(img_paths), 1), np.array(labels)))
         self.batch_size = batch_size
         self.img_size = img_size
+        self.istraining = istraining
 
     def __len__(self):
         return math.ceil(len(self.x_y) / self.batch_size)
@@ -55,6 +58,29 @@ class BaseSequence(Sequence):
         img = np.array(img)
         img = img[:, :, ::-1]
         img = self.center_img(img, self.img_size[0])
+        if self.istraining:
+            img = self.data_augment(img)
+        return img
+
+    def data_augment(self, img):
+        old_image = img[:, :, :]
+        random_num = np.random.random()
+        if random_num < 0.2:
+            # 图像翻转
+            new_image = cv2.flip(old_image, 1)
+        elif random_num < 0.4:
+            # 图像白化
+            new_image = (old_image - np.mean(old_image)) / np.std(old_image)
+        elif random_num < 0.6:
+            # 高斯噪声
+            new_image = old_image[:, :, :]
+            for i in range(old_image.shape[0]):
+                for j in range(old_image.shape[1]):
+                    for k in range(old_image.shape[2]):
+                        new_image[i, j, k] += random.gauss(0, 2)
+        else:
+            new_image = old_image[:, :, :]
+        img[:, :, :] = new_image[:, :, :]
         return img
 
     def __getitem__(self, idx):
@@ -89,10 +115,12 @@ def data_flow(train_data_dir, batch_size, num_classes, input_size):  # need modi
     labels = np_utils.to_categorical(labels, num_classes)
     train_img_paths, validation_img_paths, train_labels, validation_labels = \
         train_test_split(img_paths, labels, test_size=0.25, random_state=0)
-    print('total samples: %d, training samples: %d, validation samples: %d' % (len(img_paths), len(train_img_paths), len(validation_img_paths)))
+    print('total samples: %d, training samples: %d, validation samples: %d' % (
+    len(img_paths), len(train_img_paths), len(validation_img_paths)))
 
-    train_sequence = BaseSequence(train_img_paths, train_labels, batch_size, [input_size, input_size])
-    validation_sequence = BaseSequence(validation_img_paths, validation_labels, batch_size, [input_size, input_size])
+    train_sequence = BaseSequence(train_img_paths, train_labels, batch_size, [input_size, input_size], istraining=True)
+    validation_sequence = BaseSequence(validation_img_paths, validation_labels, batch_size, [input_size, input_size],
+                                       istraining=False)
     # # 构造多进程的数据流生成器
     # train_enqueuer = OrderedEnqueuer(train_sequence, use_multiprocessing=True, shuffle=True)
     # validation_enqueuer = OrderedEnqueuer(validation_sequence, use_multiprocessing=True, shuffle=True)

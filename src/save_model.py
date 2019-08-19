@@ -70,7 +70,7 @@ def save_pb_model(FLAGS, model):
 
 def load_weights_save_pb(FLAGS):
     optimizer = adam(lr=FLAGS.learning_rate, clipnorm=0.001)
-    objective = 'binary_crossentropy'
+    objective = 'categorical_crossentropy'
     metrics = ['accuracy']
     model = model_fn(FLAGS, objective, optimizer, metrics)
     load_weights(model, FLAGS.freeze_weights_file_path)
