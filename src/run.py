@@ -36,7 +36,7 @@ tf.app.flags.DEFINE_integer('num_classes', 0, 'the num of classes which your tas
 tf.app.flags.DEFINE_integer('input_size', 331, 'the input image size of the model')
 tf.app.flags.DEFINE_integer('batch_size', 16, '')
 tf.app.flags.DEFINE_float('learning_rate', 1e-4, '')
-tf.app.flags.DEFINE_integer('max_epochs', 5, '')
+tf.app.flags.DEFINE_integer('max_epochs', 20, '')
 
 # params for save pb
 tf.app.flags.DEFINE_string('deploy_script_path', '',

@@ -114,7 +114,7 @@ def data_flow(train_data_dir, batch_size, num_classes, input_size):  # need modi
         labels.append(label)
     labels = np_utils.to_categorical(labels, num_classes)
     train_img_paths, validation_img_paths, train_labels, validation_labels = \
-        train_test_split(img_paths, labels, test_size=0.25, random_state=0)
+        train_test_split(img_paths, labels, test_size=0.1, random_state=0)
     print('total samples: %d, training samples: %d, validation samples: %d' % (
     len(img_paths), len(train_img_paths), len(validation_img_paths)))
 

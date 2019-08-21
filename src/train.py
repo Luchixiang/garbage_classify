@@ -86,7 +86,7 @@ def train_model(FLAGS):
     train_sequence, validation_sequence = data_flow(FLAGS.data_local, FLAGS.batch_size,
                                                     FLAGS.num_classes, FLAGS.input_size)
 
-    optimizer = keras.optimizers.Adam(lr=FLAGS.learning_rate)
+    optimizer = keras.optimizers.Adam(lr=FLAGS.learning_rate, decay=2e-4)
     objective = 'categorical_crossentropy'
     metrics = ['accuracy']
     model = model_fn(FLAGS, objective, optimizer, metrics)

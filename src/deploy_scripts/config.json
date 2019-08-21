@@ -1,7 +1,7 @@
 {
     "model_algorithm": "image_classification",
-    "model_type": "TensorFlow",
-    "runtime": "python3.6",
+    "model_type": "Caffe",
+    "runtime": "python3.6-gpu",
     "metrics": {
         "f1": 0,
         "accuracy": 0.6253,
@@ -35,16 +35,19 @@
             }
         }
     ],
-    "dependencies": [
-        {
+    "dependencies": [{
             "installer": "pip",
             "packages": [
                 {
                     "package_name": "Pillow",
                     "package_version": "5.0.0",
                     "restraint": "ATLEAST"
+                },
+                {
+                    "package_name": "tensorflow-gpu",
+                    "package_version": "1.8.0",
+                    "restraint": "EXACT"
                 }
             ]
-        }
-    ]
+    }]
 }
