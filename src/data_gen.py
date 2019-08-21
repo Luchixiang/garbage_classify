@@ -77,7 +77,7 @@ class BaseSequence(Sequence):
             for i in range(old_image.shape[0]):
                 for j in range(old_image.shape[1]):
                     for k in range(old_image.shape[2]):
-                        new_image[i, j, k] += random.gauss(0, 2)
+                        new_image[i, j, k] += random.gauss(0, 0.5)
         else:
             new_image = old_image[:, :, :]
         img[:, :, :] = new_image[:, :, :]

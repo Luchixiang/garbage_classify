@@ -412,10 +412,10 @@ def ResNet50(include_top=True,
     backend, layers, models, keras_utils = get_submodules_from_kwargs(kwargs)
 
     # Create model.
-    model = keras.applications.InceptionV3(include_top=False, input_shape=(331, 331, 3), weights=None)
+    model = keras.applications.VGG19(include_top=False, input_shape=(331, 331, 3), weights=None)
     weights_path = keras.utils.get_file(
-        'densenet_169_weights_tf_dim_ordering_tf_kernels_notop.h5',
-        'https://lajibulaji.obs.cn-north-1.myhuaweicloud.com:443/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5?AccessKeyId=PG8ZG7CXDO0QSWGWZPNW&Expires=1567556634&Signature=e0ZFCY9iHsEJnnoRcHo60wQGl%2Fo%3D',
+        'vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5',
+        'https://lajibulaji.obs.cn-north-1.myhuaweicloud.com:443/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5?AccessKeyId=PG8ZG7CXDO0QSWGWZPNW&Expires=1567581667&Signature=JHVCeF6GqFwoLDSM7SCizk9RX3A%3D',
         cache_subdir='models',
         md5_hash='a268eb855778b3df3c7506639542a6af',
         cache_dir=os.path.join(os.path.dirname(__file__), '..'))

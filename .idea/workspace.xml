@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ffb3b74b-6046-4eaf-9aaf-8457b3b332fe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_gen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deploy_scripts/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/deploy_scripts/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/deploy_scripts/customize_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deploy_scripts/customize_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/resnet50.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/resnet50.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +50,7 @@
       <workItem from="1566036605023" duration="10104000" />
       <workItem from="1566124991867" duration="1838000" />
       <workItem from="1566130747139" duration="3836000" />
-      <workItem from="1566186596205" duration="13125000" />
+      <workItem from="1566186596205" duration="15208000" />
     </task>
     <servers />
   </component>
