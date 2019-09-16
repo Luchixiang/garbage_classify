@@ -11,6 +11,7 @@ from keras import backend
 from keras.optimizers import adam
 from moxing.framework import file
 from tensorflow.python.saved_model import tag_constants
+import cv2
 
 from train import model_fn
 from save_model import load_weights
@@ -45,6 +46,7 @@ def preprocess_img(img_path, img_size):
     img = np.array(img)
     img = img[:, :, ::-1]
     img = center_img(img, img_size)
+    cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 21)
     return img
 
 

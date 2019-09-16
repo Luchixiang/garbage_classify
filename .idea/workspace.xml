@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ffb3b74b-6046-4eaf-9aaf-8457b3b332fe" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Macintosh HD" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/deploy_scripts.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/inception_v3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_gen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deploy_scripts/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/deploy_scripts/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deploy_scripts/customize_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/deploy_scripts/customize_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/resnet50.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/resnet50.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,12 +19,22 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1PBSvJdYKOMiYwQx6iTyf0IzyQM" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -50,7 +68,9 @@
       <workItem from="1566036605023" duration="10104000" />
       <workItem from="1566124991867" duration="1838000" />
       <workItem from="1566130747139" duration="3836000" />
-      <workItem from="1566186596205" duration="15208000" />
+      <workItem from="1566186596205" duration="26071000" />
+      <workItem from="1566729867161" duration="9273000" />
+      <workItem from="1567240158520" duration="224000" />
     </task>
     <servers />
   </component>
@@ -69,5 +89,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

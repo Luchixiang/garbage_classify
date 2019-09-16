@@ -12,9 +12,9 @@ from keras.layers import Flatten, Dense
 from keras.callbacks import TensorBoard, Callback
 from moxing.framework import file
 from data_gen import data_flow
-import tensorflow as tf
 import keras
 from models.resnet50 import ResNet50
+from models.inception_v3 import Inceptionv3
 
 backend.set_image_data_format('channels_last')
 
@@ -23,31 +23,25 @@ def model_fn(FLAGS, objective, optimizer, metrics):
     """
     pre-trained resnet50 model
     """
+    input_layer = keras.layers.Input(shape=(FLAGS.input_size, FLAGS.input_size, 3))
     base_model = ResNet50(weights="imagenet",
                           include_top=False,
                           pooling=None,
                           input_shape=(FLAGS.input_size, FLAGS.input_size, 3),
-                          classes=FLAGS.num_classes)
-    # base_model = keras.applications.NASNetLarge(include_top=False, input_shape=(FLAGS.input_size, FLAGS.input_size, 3), weights=None)
-    # weights_path = keras.utils.get_file(
-    #     'resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5',
-    #     'https://lajibulaji.obs.cn-north-1.myhuaweicloud.com:443/NASNet-large-no-top.h5?AccessKeyId=PG8ZG7CXDO0QSWGWZPNW&Expires=1567240255&Signature=RQuJOQ59P3iErxC9hPJQiRf4FEQ%3D',
-    #     cache_subdir='models',
-    #     md5_hash='a268eb855778b3df3c7506639542a6af',
-    #     cache_dir=os.path.join(os.path.dirname(__file__), '..'))
-    # base_model.load_weights(weights_path)
-    # base_model.trainable = True
-    # for layer in base_model.layers[:100]:
-    #     layer.trainable = False
-    # model = keras.Sequential([
-    #     base_model,
-    #     keras.layers.Flatten(),
-    #     keras.layers.Dense(FLAGS.num_classes, activation='softmax')
-    # ])
-    # model.compile(loss=objective, optimizer=optimizer, metrics=metrics)
+                          classes=FLAGS.num_classes,input_layer=input_layer)
+    base_model2 = Inceptionv3(weights="imagenet",
+                          include_top=False,
+                          pooling=None,
+                          input_shape=(FLAGS.input_size, FLAGS.input_size, 3),
+                          classes=FLAGS.num_classes,input_layer=input_layer)
     x = base_model.output
-    x = Flatten()(x)
-    predictions = Dense(FLAGS.num_classes, activation='softmax')(x)
+    x2 = base_model2.output
+    x = keras.layers.GlobalAveragePooling2D()(x)
+    x2 = keras.layers.GlobalAveragePooling2D()(x2)
+    t = keras.layers.Concatenate(axis=1)([x, x2])
+    t = keras.layers.Dense(500, use_bias=True, activation='relu')(t)
+    t = keras.layers.Dropout(0.3)(t)
+    predictions = Dense(FLAGS.num_classes, activation='softmax')(t)
     model = Model(inputs=base_model.input, outputs=predictions)
     model.compile(loss=objective, optimizer=optimizer, metrics=metrics)
     return model

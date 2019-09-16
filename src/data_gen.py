@@ -65,13 +65,25 @@ class BaseSequence(Sequence):
     def data_augment(self, img):
         old_image = img[:, :, :]
         random_num = np.random.random()
-        if random_num < 0.2:
+        if random_num < 0.1:
             # 图像翻转
             new_image = cv2.flip(old_image, 1)
-        elif random_num < 0.4:
+        elif random_num < 0.2:
             # 图像白化
             new_image = (old_image - np.mean(old_image)) / np.std(old_image)
         elif random_num < 0.6:
+            def hisEqulColor(img):
+                ycrcb = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+                channels = cv2.split(ycrcb)
+                cv2.equalizeHist(channels[0], channels[0])
+                cv2.merge(channels, ycrcb)
+                cv2.cvtColor(ycrcb, cv2.COLOR_YCR_CB2BGR, img)
+                return img
+            #直方均衡
+
+            new_image = hisEqulColor(old_image)
+
+        elif random_num < 0.9:
             # 高斯噪声
             new_image = old_image[:, :, :]
             for i in range(old_image.shape[0]):
@@ -80,7 +92,7 @@ class BaseSequence(Sequence):
                         new_image[i, j, k] += random.gauss(0, 0.5)
         else:
             new_image = old_image[:, :, :]
-        img[:, :, :] = new_image[:, :, :]
+        img[:, :, :]=new_image[:, :, :]
         return img
 
     def __getitem__(self, idx):

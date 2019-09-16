@@ -4,14 +4,11 @@ from PIL import Image
 import tensorflow as tf
 from collections import OrderedDict
 from tensorflow.python.saved_model import tag_constants
-from model_service.caffe_model_service import CaffeBaseService
+from model_service.tfserving_model_service import TfServingBaseService
 
 
-class garbage_classify_service(CaffeBaseService):
+class garbage_classify_service(TfServingBaseService):
     def __init__(self, model_name, model_path):
-        if self.check_tf_version() is False:
-            raise Exception('current use tensorflow CPU version')
-
         # these three parameters are no need to modify
         self.model_name = model_name
         self.model_path = model_path
@@ -78,21 +75,6 @@ class garbage_classify_service(CaffeBaseService):
                 "38": "有害垃圾/软膏",
                 "39": "有害垃圾/过期药物"
             }
-
-
-    def check_tf_version(self):
-        from tensorflow.python.client import device_lib
-        is_gpu_version = False
-        devices_info = device_lib.list_local_devices()
-        for device in devices_info:
-            if 'GPU' == str(device.device_type):
-                is_gpu_version = True
-                break
-        if is_gpu_version:
-            print('use tensorflow-gpu', tf.__version__)
-        else:
-            print('use tensorflow', tf.__version__)
-        return is_gpu_version
 
     def center_img(self, img, size=None, fill_value=255):
         """
